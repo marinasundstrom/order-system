@@ -1,0 +1,170 @@
+﻿@page "/orders/{Id:int}"
+@inject IMediator Mediator
+
+@if (order == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Order @order.Id</h1>
+
+    @if(order.Subscription != null) 
+    {
+        <p>Subscription: <a href="/subscriptions/@order.Subscription?.Id">@order.Subscription?.Id</a></p>
+    }
+
+    <h2>Details</h2>
+
+    @*    <table class="table table-striped">
+        <tbody>
+        <tr>
+        <th>Planned Start Date </th>
+        <td>@delivery.PlannedStartDate</td>
+        </tr>
+        <tr>
+        <th>Planned End Date </th>
+        <td>@delivery.PlannedEndDate</td>
+        </tr>
+        <tr>
+        <th>Actual Start Date </th>
+        <td>@delivery.ActualStartDate</td>
+        </tr>
+        <tr>
+        <th>Actual End Date </th>
+        <td>@delivery.ActualEndDate</td>
+        </tr>
+        </tbody>
+        </table>*@
+
+    @if (order?.DeliveryDetails?.Name?.FirstName != null)
+    {
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>@order?.DeliveryDetails?.Name.FirstName @order?.DeliveryDetails?.Name.LastName</td>
+                </tr>
+                <tr>
+                    <th>Thoroughfare</th>
+                    <td>@order?.DeliveryDetails?.Address?.Thoroughfare</td>
+                </tr>
+                <tr>
+                    <th>Premises</th>
+                    <td>@order?.DeliveryDetails?.Address?.Premises</td>
+                </tr>
+                <tr>
+                    <th>Postal Code</th>
+                    <td>@order?.DeliveryDetails?.Address?.PostalCode</td>
+                </tr>
+                <tr>
+                    <th>Locality</th>
+                    <td>@order?.DeliveryDetails?.Address?.Locality</td>
+                </tr>
+                <tr>
+                    <th>Sub Administrative Area</th>
+                    <td>@order?.DeliveryDetails?.Address?.SubAdministrativeArea</td>
+                </tr>
+                <tr>
+                    <th>Administrative Area</th>
+                    <td>@order?.DeliveryDetails?.Address?.AdministrativeArea</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>@order?.DeliveryDetails?.Address?.Country</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+    <h2>Items</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+                <th>Subscription</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderItem orderItem in order!.Items)
+            {
+                <tr>
+                    <td>@orderItem.Id</td>
+                    <td><a href="/products/@orderItem?.Product?.Id">@orderItem?.Product?.Name</a></td>
+
+                    <td>@orderItem!.UnitPrice</td>
+                    <td>@orderItem.Quantity @orderItem.Unit</td>
+                    <td>@orderItem.SubTotal</td>
+                    <td><a href="/subscriptions/@orderItem.Subscription?.Id">@orderItem.Subscription?.Id</a></td>
+                </tr>
+                @if (orderItem?.DeliveryDetails?.Name?.FirstName != null)
+                {
+                    <tr>
+                        <p>@orderItem?.DeliveryDetails?.Name?.FirstName @orderItem?.DeliveryDetails?.Name?.LastName</p>
+                        <p>@orderItem?.DeliveryDetails?.Address?.Thoroughfare @orderItem?.DeliveryDetails?.Address?.Premises @orderItem?.DeliveryDetails?.Address?.SubPremises</p>
+                        <p>@orderItem?.DeliveryDetails?.Address?.PostalCode @orderItem?.DeliveryDetails?.Address?.Locality</p>
+                        <p>@orderItem?.DeliveryDetails?.Address?.SubAdministrativeArea</p>
+                        <p>@orderItem?.DeliveryDetails?.Address?.AdministrativeArea, @orderItem?.DeliveryDetails?.Address?.Country</p>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @*
+        @if (deliveries == null)
+        {
+        <p><em>Loading...</em></p>
+        }
+        else
+        {*@
+    <h2>Deliveries</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order Item</th>
+                <th>Planned Start</th>
+                <th>Planned End</th>
+                <th>Actual Start</th>
+                <th>Actual End</th>
+                <th>Subscription</th>
+                <th>Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var delivery in order.Deliveries)
+            {
+                <tr>
+                    <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
+                    <td>@delivery.OrderItem?.Id</td>
+                    <td>@delivery.PlannedStartDate</td>
+                    <td>@delivery.PlannedEndDate</td>
+                    <td>@delivery.ActualStartDate</td>
+                    <td>@delivery.ActualEndDate</td>
+                    <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
+                    <td><a href="/invoices/@delivery.Invoice?.Id">@delivery.Invoice?.Id</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*}*@
+}
+
+@code {
+    private Order? order;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        order = await Mediator.Send(new GetOrderQuery(Id));
+    }
+}

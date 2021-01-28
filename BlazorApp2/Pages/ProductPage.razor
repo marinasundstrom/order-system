@@ -1,0 +1,29 @@
+﻿@page "/products/{Id:int}"
+@inject IMediator Mediator
+
+@if (product == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@product.Id @product.Name</h1>
+
+    <p>@product.Description</p>
+
+    <p>@product.Price</p>
+
+    <p>@product.CompareAtPrice</p>
+}
+
+@code {
+    private Product? product;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await Mediator.Send(new GetProductQuery(Id));
+    }
+}

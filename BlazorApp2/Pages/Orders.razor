@@ -1,0 +1,45 @@
+﻿@page "/orders"
+@inject IMediator Mediator
+
+<h1>Orders</h1>
+
+<p>The orders.</p>
+
+@if (orders == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order Date</th>
+                <th>Subscription</th>
+@*                <th>SubTotal</th>
+*@            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+            <tr>
+                <td><a href="/orders/@order.Id">@order.Id</a></td>
+                <td>@order.OrderDate</td>
+                <td><a href="/subscriptions/@order.Subscription?.Id">@order.Subscription?.Id</a></td>
+@*                <td>@order.SubTotal</td>
+*@            
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Order>? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await Mediator.Send(new GetOrdersQuery());
+    }
+}

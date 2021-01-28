@@ -1,0 +1,135 @@
+﻿@page "/deliveries/{Id:int}"
+@inject IMediator Mediator
+
+@if (delivery == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Delivery @delivery.Id</h1>
+
+    <h2>Details</h2>
+
+     <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Order</th>
+                <td><a href="/orders/@delivery.Order?.Id">@delivery.Order?.Id</a></td>
+            </tr>
+            <tr>
+                <th>Order Item</th>
+                <td>@delivery.OrderItem?.Id</td>
+            </tr>
+            <tr>
+                <th>Subscription</th>
+                <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
+            </tr>
+            <tr>
+                <th>Invoice</th>
+                <td><a href="/invoices/@delivery.Invoice?.Id">@delivery.Invoice?.Id</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Planned Start Date </th>
+                <td>@delivery.PlannedStartDate</td>
+            </tr>
+            <tr>
+                <th>Planned End Date </th>
+                <td>@delivery.PlannedEndDate</td>
+            </tr>
+            <tr>
+                <th>Actual Start Date </th>
+                <td>@delivery.ActualStartDate</td>
+            </tr>
+            <tr>
+                <th>Actual End Date </th>
+                <td>@delivery.ActualEndDate</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>@delivery?.DeliveryDetails?.Name.FirstName @delivery?.DeliveryDetails?.Name.LastName</td>
+            </tr>
+            <tr>
+                <th>Thoroughfare</th>
+                <td>@delivery?.DeliveryDetails?.Address?.Thoroughfare</td>
+            </tr>
+            <tr>
+                <th>Premises</th>
+                <td>@delivery?.DeliveryDetails?.Address?.Premises</td>
+            </tr>
+            <tr>
+                <th>Postal Code</th>
+                <td>@delivery?.DeliveryDetails?.Address?.PostalCode</td>
+            </tr>
+            <tr>
+                <th>Locality</th>
+                <td>@delivery?.DeliveryDetails?.Address?.Locality</td>
+            </tr>
+            <tr>
+                <th>Sub Administrative Area</th>
+                <td>@delivery?.DeliveryDetails?.Address?.SubAdministrativeArea</td>
+            </tr>
+            <tr>
+                <th>Administrative Area</th>
+                <td>@delivery?.DeliveryDetails?.Address?.AdministrativeArea</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>@delivery?.DeliveryDetails?.Address?.Country</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Items</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order</th>
+                <th>Order Item</th>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DeliveryItem deliveryItem in delivery!.Items)
+            {
+                <tr>
+                    <td>@deliveryItem.Id</td>
+                    <td><a href="/orders/@deliveryItem.Order.Id">@deliveryItem.Order.Id</a></td>
+                    <td>@deliveryItem?.OrderItem?.Id</td>
+                    <td><a href="/products/@deliveryItem?.Product?.Id">@deliveryItem?.Product?.Name</a></td>
+
+                    <td>@deliveryItem!.UnitPrice</td>
+                    <td>@deliveryItem.Quantity @deliveryItem.Unit</td>
+                    <td>@deliveryItem.SubTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Delivery? delivery;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        delivery = await Mediator.Send(new GetDeliveryQuery(Id));
+    }
+}

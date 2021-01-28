@@ -1,0 +1,126 @@
+﻿@page "/subscriptions/{Id:int}"
+@inject IMediator Mediator
+@using Commerce.Application.Subscriptions
+
+@if (subscription == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Subscription @subscription.Id</h1>
+
+    <h2>Details</h2>
+
+        <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Subscription Plan</th>
+                <td><a href="/subscriptions/plans/@subscription.SubscriptionPlan?.Id">@subscription.SubscriptionPlan?.Id</a></td>
+            </tr>
+            <tr>
+                <th>Frequency</th>
+                <td>@subscription.SubscriptionPlan?.GetDescription()</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Order</th>
+                <td><a href="/orders/@subscription.Order?.Id">@subscription.Order?.Id</a></td>
+            </tr>
+            <tr>
+                <th>Order Item</th>
+                <td>@subscription.OrderItem?.Id</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Start Date</th>
+                <td>@subscription.StartDate</td>
+            </tr>
+            <tr>
+                <th>End Date</th>
+                <td>@subscription.EndDate</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Items</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Order Item</th>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DeliveryItem deliveryItem in subscription.Deliveries.ElementAt(0)!.Items)
+            {
+                <tr>
+                    <td><a href="/orders/@deliveryItem.Order.Id">@deliveryItem.Order.Id</a></td>
+                    <td>@deliveryItem?.OrderItem?.Id</td>
+                    <td><a href="/products/@deliveryItem?.Product?.Id">@deliveryItem?.Product?.Name</a></td>
+
+                    <td>@deliveryItem!.UnitPrice</td>
+                    <td>@deliveryItem.Quantity @deliveryItem.Unit</td>
+                    <td>@deliveryItem.SubTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Deliveries</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order</th>
+                <th>Order Item</th>
+                <th>Planned Start</th>
+                <th>Planned End</th>
+                <th>Actual Start</th>
+                <th>Actual End</th>
+                <th>Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var delivery in subscription.Deliveries)
+            {
+                <tr>
+                    <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
+                    <td><a href="/orders/@delivery.Order?.Id">@delivery.Order?.Id</a></td>
+                    <td>@delivery.OrderItem?.Id</td>
+                    <td>@delivery.PlannedStartDate</td>
+                    <td>@delivery.PlannedEndDate</td>
+                    <td>@delivery.ActualStartDate</td>
+                    <td>@delivery.ActualEndDate</td>
+                    <td><a href="/invoices/@delivery.Invoice?.Id">@delivery.Invoice?.Id</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Subscription? subscription;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        subscription = await Mediator.Send(new GetSubscriptionQuery(Id));
+    }
+}

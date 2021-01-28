@@ -1,0 +1,50 @@
+﻿@page "/deliveries"
+@inject IMediator Mediator
+
+<h1>Deliveries</h1>
+
+<p>The deliveries.</p>
+
+@if (deliveries == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order</th>
+                <th>Planned Start</th>
+                <th>Planned End</th>
+                <th>Actual Start</th>
+                <th>Actual End</th>
+                <th>Invoice</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var delivery in deliveries)
+            {
+            <tr>
+                <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
+                <td><a href="/orders/@delivery.Order.Id">@delivery.Order.Id</a></td>
+                <td>@delivery.PlannedStartDate</td>
+                <td>@delivery.PlannedEndDate</td>
+                <td>@delivery.ActualStartDate</td>
+                <td>@delivery.ActualEndDate</td>
+                <td><a href="/invoices/@delivery.Invoice?.Id">@delivery.Invoice?.Id</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Delivery>? deliveries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        deliveries = await Mediator.Send(new GetDeliveriesQuery());
+    }
+}

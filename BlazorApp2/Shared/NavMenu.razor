@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+@inject NavigationManager Navigation
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Offcanvas navbar</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse @NavMenuCssClass" id="navbarsExampleDefault" @onclick="ToggleNavMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="products">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Products
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                        <NavLink class="nav-link" href="orders">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Orders
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="deliveries">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Deliveries
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="invoices">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Invoices
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="subscriptions">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Subscriptions
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="subscriptions/plans">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Subscription Plans
+                        </NavLink>
+                    </li>
+            </ul>
+            <ul class="navbar-nav">
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="Identity/Account/Manage">
+                                <span class="bi-person" aria-hidden="true"></span> Hello, @context.User?.Identity?.Name!
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Identity/Account/LogOut">
+                                <span class="bi-box-arrow-right" aria-hidden="true"></span> Sign out
+                            </a>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="Identity/Account/Register">
+                                <span class="bi-person" aria-hidden="true"></span> Register
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="Identity/Account/Login">
+                                <span class="bi-box-arrow-in-right" aria-hidden="true"></span> Sign in
+                            </NavLink>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+                @*<li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi-sliders p-1"></i> Settings</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                            <li><NavLink class="dropdown-item" href="checkout">Action</NavLink></li>
+                            <li><NavLink class="dropdown-item" href="page2">Another action</NavLink></li>
+                            <li><NavLink class="dropdown-item" href="page3">Something else here</NavLink></li>
+                        </ul>
+                    </li>*@
+            </ul>
+            @*<form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>*@
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => !collapseNavMenu ? "open" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

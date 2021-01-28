@@ -1,0 +1,46 @@
+﻿@page "/products"
+@inject IMediator Mediator
+
+<h1>Products</h1>
+
+<p>The products.</p>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Compare at price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+            <tr>
+                <td><a href="/products/@product.Id">@product.Id</a></td>
+                <td><a href="/products/@product.Id">@product.Name</a></td>
+                <td>@product.Description</td>
+                <td>@product.Price</td>
+                <td>@product.CompareAtPrice</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Product>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Mediator.Send(new GetProductsQuery());
+    }
+}

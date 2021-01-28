@@ -1,0 +1,35 @@
+﻿@page "/subscriptions/plans/{Id:int}"
+@inject IMediator Mediator
+@using Commerce.Application.Subscriptions
+
+@if (subscriptionPlan == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Subscription Plan "@subscriptionPlan.Name" (@subscriptionPlan.Id)</h1>
+
+    <h2>Details</h2>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Frequency</th>
+                <td>@subscriptionPlan.GetDescription()</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private SubscriptionPlan? subscriptionPlan;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        subscriptionPlan = await Mediator.Send(new GetSubscriptionPlanQuery(Id));
+    }
+}

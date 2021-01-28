@@ -1,0 +1,40 @@
+﻿@page "/subscriptions/plans"
+@inject IMediator Mediator
+
+<h1>Subscription Plans</h1>
+
+<p>The subscriptions plans.</p>
+
+@if (subscriptionPlans == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subscriptionPlan in subscriptionPlans)
+            {
+            <tr>
+                <td><a href="/subscriptions/plans/@subscriptionPlan.Id">@subscriptionPlan.Id</a></td>
+                <td>@subscriptionPlan.Name</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<SubscriptionPlan>? subscriptionPlans;
+
+    protected override async Task OnInitializedAsync()
+    {
+        subscriptionPlans = await Mediator.Send(new GetSubscriptionPlansQuery());
+    }
+}
