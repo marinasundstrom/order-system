@@ -14,13 +14,13 @@ namespace Commerce.Infrastructure.Persistence
         {
             using (var context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>())
             {
-                await context.Database.EnsureDeletedAsync();
+                //await context.Database.EnsureDeletedAsync();
 
-                await context.Database.EnsureCreatedAsync();
+                if (await context.Database.EnsureCreatedAsync())
+                {
+                    //await context.Database.MigrateAsync();
 
-                //await context.Persistencebase.MigrateAsync();
-
-                context.Orders.AddRange(new[] {
+                    context.Orders.AddRange(new[] {
                     CreateOrderWith2Items(),
                     CreateOrderWith2ItemsAndOneWithInlineAddress(),
                     CreateOrderWith2SubscriptionItems(),
@@ -29,9 +29,10 @@ namespace Commerce.Infrastructure.Persistence
                     CreateOrderWithInlineDeliveryAddressesAndInlineSubscription()
                  });
 
-                await context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
 
-                await Generators.GenerateData(context);
+                    await Generators.GenerateData(context);
+                }
             }
         }
     }

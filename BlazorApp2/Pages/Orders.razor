@@ -1,5 +1,6 @@
 ﻿@page "/orders"
 @inject IMediator Mediator
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <h1>Orders</h1>
 
@@ -36,10 +37,15 @@ else
 }
 
 @code {
-    private IEnumerable<Order>? orders;
+    private IEnumerable<OrderDto>? orders;
 
     protected override async Task OnInitializedAsync()
     {
-        orders = await Mediator.Send(new GetOrdersQuery());
+        var pagedResult = await Mediator.Send(new GetOrdersQuery(1, 100));
+
+        var orders = pagedResult.Items;
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
     }
 }

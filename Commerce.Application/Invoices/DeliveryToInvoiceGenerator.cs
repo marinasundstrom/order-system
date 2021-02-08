@@ -4,9 +4,9 @@ using System;
 
 namespace Commerce.Application.Invoices
 {
-    public class DeliveryToInvoiceGenerator
+    public class DeliveryToInvoiceGenerator : IDeliveryToInvoiceGenerator
     {
-        public Invoice GenerateInvoice(Delivery delivery)
+        public Invoice GenerateInvoiceFromDelivery(Delivery delivery)
         {
             var invoice = new Invoice()
             {

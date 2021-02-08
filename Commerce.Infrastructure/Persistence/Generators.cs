@@ -13,7 +13,7 @@ namespace Commerce.Infrastructure.Persistence
     { 
         public static async Task GenerateData(ApplicationDbContext context)
         {
-            OrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
+            IOrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
              new DeliveryFactory(),
              new SubscriptionDeliveryDatesGenerator());
             
@@ -30,14 +30,14 @@ namespace Commerce.Infrastructure.Persistence
                 .ThenInclude(x => x.Object))
             {
 
-                var deliveries = orderDeliveryGenerator.GetDeliveries(order, null, null);
+                var deliveries = orderDeliveryGenerator.GenerateDeliveries(order, null, null);
 
                 foreach (var delivery in deliveries.OrderBy(x => x.PlannedStartDate))
                 {
                     context.Deliveries.Add(delivery);
 
                     context.Invoices.Add(
-                        deliveryToInvoiceGenerator.GenerateInvoice(delivery));
+                        deliveryToInvoiceGenerator.GenerateInvoiceFromDelivery(delivery));
                 }
 
             }

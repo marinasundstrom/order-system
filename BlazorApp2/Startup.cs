@@ -1,19 +1,27 @@
 using BlazorApp2.Areas.Identity;
+using BlazorApp2.Services;
 using Commerce.Application;
+using Commerce.Application.Common.Interfaces;
 using Commerce.Application.Services;
+using Commerce.Infrastructure;
 using Commerce.Infrastructure.Identity;
 using Commerce.Infrastructure.Persistence;
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.SqlServer;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using System;
+using System.Linq;
 
 namespace BlazorApp2
 {
@@ -31,13 +39,32 @@ namespace BlazorApp2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructure();
+            services.AddInfrastructure(Configuration);
 
-            services.AddControllers();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
+            // Customise default API behaviour
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddControllersWithViews()
+                .AddFluentValidation();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddHttpContextAccessor();
+
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
+
+            services.AddScoped<IHostEnvironmentAuthenticationStateProvider>(sp => {
+                // this is safe because 
+                //     the `RevalidatingIdentityAuthenticationStateProvider` extends the `ServerAuthenticationStateProvider`
+                var provider = (ServerAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>();
+                return provider;
+            });
 
             services.AddAuthentication();
 
@@ -47,9 +74,24 @@ namespace BlazorApp2
 
             AddHangfire(services);
 
-            services.AddOpenApiDocument();
+            services.AddOpenApiDocument(configure =>
+            {
+                configure.Title = "BlazorApp2 API";
+                configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
+
+                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+            });
 
             services.AddLocalization();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
         }
 
         private void AddHangfire(IServiceCollection services)
@@ -111,6 +153,7 @@ namespace BlazorApp2
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapHangfireDashboard();
             });
         }

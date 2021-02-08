@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Commerce.Application.Orders.Queries
 {
-    public class GetOrderQuery : IRequest<Order>
+    public class GetOrderQuery : IRequest<OrderDto>
     {
         public GetOrderQuery(int id)
         {
@@ -19,7 +19,7 @@ namespace Commerce.Application.Orders.Queries
 
         public int Id { get; }
 
-        public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Order>
+        public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, OrderDto>
         {
             private readonly IApplicationDbContext applicationDbContext;
 
@@ -28,9 +28,9 @@ namespace Commerce.Application.Orders.Queries
                 this.applicationDbContext = applicationDbContext;
             }
 
-            public async Task<Order> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+            public async Task<OrderDto> Handle(GetOrderQuery request, CancellationToken cancellationToken)
             {
-                return await applicationDbContext.Orders
+                return new OrderDto(await applicationDbContext.Orders
                     .Include(x => x.Subscription)
                     .ThenInclude(x => x!.SubscriptionPlan)
                     .Include(x => x.Items)
@@ -44,7 +44,8 @@ namespace Commerce.Application.Orders.Queries
                     .Include(x => x.Deliveries)
                     .ThenInclude(x => x.OrderItem)
                     .AsSplitQuery()
-                    .FirstAsync(x => x.Id == request.Id);
+                    .AsNoTracking()
+                    .FirstAsync(x => x.Id == request.Id));
             }
         }
     }

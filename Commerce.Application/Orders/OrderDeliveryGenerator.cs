@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Commerce.Application.Orders
 {
-    public class OrderDeliveryGenerator
+    public class OrderDeliveryGenerator : IOrderDeliveryGenerator
     {
         private DeliveryFactory deliveryFactory;
         private readonly SubscriptionDeliveryDatesGenerator deliveryDatesGenerator;
@@ -20,7 +20,7 @@ namespace Commerce.Application.Orders
             this.deliveryDatesGenerator = deliveryDatesGenerator;
         }
 
-        public IEnumerable<Delivery> GetDeliveries(Order order, DateTime? startDate = null, DateTime? endDate = null)
+        public IEnumerable<Delivery> GenerateDeliveries(Order order, DateTime? startDate = null, DateTime? endDate = null)
         {
             if (order.Subscription == null)
             {

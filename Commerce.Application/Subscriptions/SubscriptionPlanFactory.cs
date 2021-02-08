@@ -36,7 +36,6 @@ namespace Commerce.Application.Subscriptions
                 Recurrence = Recurrence.Monthly,
                 EveryMonths = everyMonths,
                 OnDay = onDay,
-                //OnDayOfWeek = DayOfWeek.Tuesday,
                 StartTime = startTime,
                 Duration = duration
             };

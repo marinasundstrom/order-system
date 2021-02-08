@@ -1,16 +1,37 @@
 ﻿using Commerce.Application.Common.Interfaces;
+using Commerce.Domain.Common;
 using Commerce.Domain.Entities;
 using Commerce.Infrastructure.Identity;
 using Commerce.Infrastructure.Persistence;
+using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Commerce.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private ICurrentUserService _currentUserService;
+        private IDateTime _dateTime;
+
+        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        //{
+        //}
+
+        public ApplicationDbContext(
+            DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions,
+            ICurrentUserService currentUserService,
+            /* IDomainEventService domainEventService, */
+            IDateTime dateTime) : base(options, operationalStoreOptions)
         {
+            _currentUserService = currentUserService;
+            //_domainEventService = domainEventService;
+            _dateTime = dateTime;
         }
 
 #nullable disable
@@ -54,6 +75,31 @@ namespace Commerce.Infrastructure.Persistence
                 .HasOne(s => s.OrderItem!)
                 .WithOne(oi => oi.Subscription!)
                 .HasForeignKey<Subscription>(s => s.OrderItemId);
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<AuditableEntity> entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedBy = _currentUserService.UserId!;
+                        entry.Entity.Created = _dateTime.Now;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId!;
+                        entry.Entity.LastModified = _dateTime.Now;
+                        break;
+                }
+            }
+
+            var result = await base.SaveChangesAsync(cancellationToken);
+
+            //await DispatchEvents();
+
+            return result;
         }
     }
 }
