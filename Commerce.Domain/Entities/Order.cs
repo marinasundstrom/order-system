@@ -32,8 +32,6 @@ namespace Commerce.Domain.Entities
 
         public Subscription? Subscription { get; set; }
 
-        public int? SubscriptionId { get; set; }
-
         //public Person? Assignee { get; set; }
 
         //public DateTime? LastAssigned { get; set; }

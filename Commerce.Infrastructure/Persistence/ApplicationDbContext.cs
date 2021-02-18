@@ -44,6 +44,16 @@ namespace Commerce.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.Order!)
+                .WithOne(oi => oi.Subscription!)
+                .HasForeignKey<Subscription>(s => s.OrderId);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.OrderItem!)
+                .WithOne(oi => oi.Subscription!)
+                .HasForeignKey<Subscription>(s => s.OrderItemId);
         }
     }
 }

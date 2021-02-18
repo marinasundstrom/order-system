@@ -13,6 +13,14 @@ namespace Commerce.Domain.Entities
 
         public Organization? Organization { get; set; }
 
+        public Order? Order { get; set; }
+
+        public int? OrderId { get; set; }
+
+        public OrderItem? OrderItem { get; set; }
+
+        public int? OrderItemId { get; set; }
+
         public SubscriptionPlan SubscriptionPlan { get; set; } = null!;
 
         public DateTime StartDate { get; set; }
@@ -28,11 +36,5 @@ namespace Commerce.Domain.Entities
         public string? Note { get; set; }
 
         public List<Delivery> Deliveries { get; } = new List<Delivery>();
-
-        [InverseProperty(nameof(Entities.Order.Subscription))]
-        public Order Order { get; set; } = null!;
-
-        [InverseProperty(nameof(Entities.OrderItem.Subscription))]
-        public OrderItem? OrderItem { get; set; }
     }
 }

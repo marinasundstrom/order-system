@@ -16,8 +16,6 @@ namespace Commerce.Domain.Entities
 
         public Subscription? Subscription { get; set; }
 
-        public int? SubscriptionId { get; set; }
-
         public CurrencyAmount UnitPrice { get; set; } = null!;
 
         public double Quantity { get; set; }
