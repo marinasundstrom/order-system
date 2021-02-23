@@ -45,7 +45,7 @@ namespace BlazorApp2
 
             services.AddSingleton<IEmailService, EmailService>();
 
-            AddHangfire(services);
+            //AddHangfire(services);
 
             services.AddOpenApiDocument();
 
@@ -90,7 +90,7 @@ namespace BlazorApp2
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseHangfireDashboard();
+            //app.UseHangfireDashboard();
             //backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
 
             app.UseOpenApi();
@@ -111,7 +111,7 @@ namespace BlazorApp2
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
-                endpoints.MapHangfireDashboard();
+                //endpoints.MapHangfireDashboard();
             });
         }
     }

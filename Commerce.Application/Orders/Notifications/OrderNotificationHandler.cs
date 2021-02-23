@@ -12,19 +12,19 @@ namespace Commerce.Application.Orders.Notifications
         : INotificationHandler<OrderCreatedNotification>, INotificationHandler<OrderCanceledNotification>
     {
         private readonly IApplicationDbContext applicationDbContext;
-        private readonly IBackgroundJobClient backgroundJobClient;
-        private readonly IRecurringJobManager recurringJobManager;
+        //private readonly IBackgroundJobClient backgroundJobClient;
+        //private readonly IRecurringJobManager recurringJobManager;
         private readonly ILogger<OrderNotificationHandler> logger;
 
         public OrderNotificationHandler(
             IApplicationDbContext applicationDbContext,
-            IBackgroundJobClient backgroundJobClient,
-            IRecurringJobManager recurringJobManager,
+            //IBackgroundJobClient backgroundJobClient,
+            //IRecurringJobManager recurringJobManager,
             ILogger<OrderNotificationHandler> logger)
         {
             this.applicationDbContext = applicationDbContext;
-            this.backgroundJobClient = backgroundJobClient;
-            this.recurringJobManager = recurringJobManager;
+            //this.backgroundJobClient = backgroundJobClient;
+            //this.recurringJobManager = recurringJobManager;
             this.logger = logger;
         }
 
@@ -34,7 +34,7 @@ namespace Commerce.Application.Orders.Notifications
 
             // Run scripts
 
-            var jobId = backgroundJobClient.Enqueue(() => Console.WriteLine("Job was enqued."));
+            //var jobId = backgroundJobClient.Enqueue(() => Console.WriteLine("Job was enqued."));
 
             //recurringJobManager.AddOrUpdate("42", () => Console.WriteLine("Hej Sven!."), Cron.MinuteInterval(1));
 
