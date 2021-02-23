@@ -11,7 +11,7 @@ namespace Commerce.Infrastructure.Persistence
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
                 options.UseSqlServer(
-                    sp.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection")));
+                    sp.GetRequiredService<IConfiguration>().GetConnectionString("commerce-db")));
 
             services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 

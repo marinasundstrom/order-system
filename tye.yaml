@@ -1,0 +1,20 @@
+﻿# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: commerce
+services:
+- name: commerce-api
+  project: BlazorApp2/BlazorApp2.csproj
+- name: commerce-db
+  image: mcr.microsoft.com/mssql/server:2019-latest
+  env:
+  - name: SA_PASSWORD
+    value: P@ssw0rd
+  - name: ACCEPT_EULA
+    value: "Y"
+  bindings:
+    - port: 1433
+      connectionString: Server=${host},${port};Database=IdentityDb;User Id=sa;Password=${env:SA_PASSWORD}

@@ -13,7 +13,7 @@ namespace BlazorApp2
 
 #if DEBUG
 
-            //await host.Services.SeedDataAsync();
+           await host.Services.SeedDataAsync();
 
 #endif
 
