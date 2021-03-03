@@ -6,6 +6,7 @@ using Commerce.Application.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using Commerce.Application.Billing;
 
 namespace Commerce.Infrastructure.Persistence
 {
@@ -16,8 +17,10 @@ namespace Commerce.Infrastructure.Persistence
             OrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
              new DeliveryFactory(),
              new SubscriptionDeliveryDatesGenerator());
-            
+
+            /*
             DeliveryToInvoiceGenerator deliveryToInvoiceGenerator = new DeliveryToInvoiceGenerator();
+            */
 
             foreach (var order in context.Orders.AsQueryable()
                 .Include(x => x.Subscription)
@@ -28,19 +31,31 @@ namespace Commerce.Infrastructure.Persistence
                 .ThenInclude(x => x.Subscription)
                 .Include(x => x.Items)
                 .ThenInclude(x => x.Object))
-            {
-
+            {              
                 var deliveries = orderDeliveryGenerator.GetDeliveries(order, null, null);
 
                 foreach (var delivery in deliveries.OrderBy(x => x.PlannedStartDate))
                 {
                     context.Deliveries.Add(delivery);
 
-                    context.Invoices.Add(
-                        deliveryToInvoiceGenerator.GenerateInvoice(delivery));
+                    delivery.Status = Domain.Enums.DeliveryStatus.Delivered;
+
+                    delivery.ActualStartDate = delivery.PlannedStartDate;
+                    delivery.ActualEndDate = delivery.PlannedEndDate;
+
+                    // context.Invoices.Add(
+                    //    deliveryToInvoiceGenerator.GenerateInvoice(delivery));
                 }
 
             }
+
+            await context.SaveChangesAsync();
+
+            DeliveryInvoiceGenerator deliveryInvoiceGenerator = new DeliveryInvoiceGenerator(context);
+
+            var invoices = await deliveryInvoiceGenerator.GenerateInvoicesAsync();
+
+            context.Invoices.AddRange(invoices);
 
             await context.SaveChangesAsync();
         }

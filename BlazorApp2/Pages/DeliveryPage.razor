@@ -12,24 +12,28 @@ else
     <h2>Details</h2>
 
      <table class="table table-striped">
-        <tbody>
-            <tr>
-                <th>Order</th>
-                <td><a href="/orders/@delivery.Order?.Id">@delivery.Order?.Id</a></td>
-            </tr>
-            <tr>
-                <th>Order Item</th>
-                <td>@delivery.OrderItem?.Id</td>
-            </tr>
-            <tr>
-                <th>Subscription</th>
-                <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
-            </tr>
-            <tr>
-                <th>Invoice</th>
-                <td><a href="/invoices/@delivery.Invoice?.Id">@delivery.Invoice?.Id</a></td>
-            </tr>
-        </tbody>
+         <tbody>
+             <tr>
+                 <th>Status </th>
+                 <td>@delivery.Status</td>
+             </tr>
+             <tr>
+                 <th>Order</th>
+                 <td><a href="/orders/@delivery.Order?.Id">@delivery.Order?.Id</a></td>
+             </tr>
+             <tr>
+                 <th>Order Item</th>
+                 <td>@delivery.OrderItem?.Id</td>
+             </tr>
+             <tr>
+                 <th>Subscription</th>
+                 <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
+             </tr>
+             <tr>
+                 <th>Invoice</th>
+                 <td><a href="/invoices/@delivery.InvoiceItem?.Invoice?.Id">@delivery.InvoiceItem?.Invoice?.Id</a></td>
+             </tr>
+         </tbody>
     </table>
 
     <table class="table table-striped">

@@ -25,7 +25,6 @@ namespace Commerce.Application.Invoices.Queries
             {
                 return await applicationDbContext.Invoices
                     .Include(x => x.Order)
-                    .Include(x => x.Delivery)
                     .Include(x => x.Subscription)
                     .OrderBy(x => x.InvoiceDate)
                     .AsSplitQuery()

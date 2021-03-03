@@ -12,24 +12,21 @@ else
     <h2>Details</h2>
 
      <table class="table table-striped">
-        <tbody>
-            <tr>
-                <th>Order</th>
-                <td><a href="/orders/@invoice.Order?.Id">@invoice.Order?.Id</a></td>
-            </tr>
-            <tr>
-                <th>Order Item</th>
-                <td>@invoice.OrderItem?.Id</td>
-            </tr>
-            <tr>
-                <th>Subscription</th>
-                <td><a href="/subscriptions/@invoice.Subscription?.Id">@invoice.Subscription?.Id</a></td>
-            </tr>
-            <tr>
-                <th>Delivery</th>
-                <td><a href="/deliveries/@invoice.Delivery?.Id">@invoice.Delivery?.Id</a></td>
-            </tr>
-        </tbody>
+         <tbody>
+             <tr>
+                 <th>Invoice Date</th>
+                 <td>@invoice.InvoiceDate.ToString("g")</td>
+             </tr>
+
+             <tr>
+                 <th>Order</th>
+                 <td><a href="/orders/@invoice.Order?.Id">@invoice.Order?.Id</a></td>
+             </tr>
+             <tr>
+                 <th>Subscription</th>
+                 <td><a href="/subscriptions/@invoice.Subscription?.Id">@invoice.Subscription?.Id</a></td>
+             </tr>
+         </tbody>
     </table>
 
     <h2>Items</h2>
@@ -38,8 +35,11 @@ else
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Delivery</th>
+                <th>Delivery Item</th>
                 <th>Order</th>
                 <th>Order Item</th>
+                <th>Subscription</th>
                 <th>Product</th>
                 <th>Unit Price</th>
                 <th>Quantity</th>
@@ -51,8 +51,15 @@ else
             {
             <tr>
                 <td>@invoiceItem.Id</td>
-                <td><a href="/orders/@invoiceItem.Order.Id">@invoiceItem.Order.Id</a></td>
+
+                <td><a href="/deliveries/@invoiceItem?.Delivery?.Id">@invoiceItem?.Delivery?.Id</a></td>
+                <td>@invoiceItem?.DeliveryItem?.Id</td>
+
+                <td><a href="/orders/@invoiceItem?.Order?.Id">@invoiceItem?.Order?.Id</a></td>
                 <td>@invoiceItem?.OrderItem?.Id</td>
+
+                <td><a href="/subscriptions/@invoiceItem?.Subscription?.Id">@invoiceItem?.Subscription?.Id</a></td>
+
                 <td><a href="/products/@invoiceItem?.Product?.Id">@invoiceItem?.Product?.Name</a></td>
 
                 <td>@invoiceItem!.UnitPrice</td>

@@ -14,9 +14,7 @@ namespace Commerce.Application.Invoices
 
                 Status = InvoiceStatus.Draft,
                 StatusDate = DateTime.Now,
-                Delivery = delivery,
                 Order = delivery.Order,
-                OrderItem = delivery?.OrderItem,
                 Object = delivery?.Object,
                 Subscription = delivery?.Subscription,
                 BillingDetails = delivery?.Order?.BillingDetails?.Clone(),

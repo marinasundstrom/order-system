@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Commerce.Domain.Enums;
 
 namespace Commerce.Domain.Entities
 {
@@ -7,13 +8,17 @@ namespace Commerce.Domain.Entities
     {
         public int Id { get; set; }
 
+        public DeliveryStatus Status { get; set; }
+
         public Order Order { get; set; } = null!;
 
         public OrderItem? OrderItem { get; set; }
 
         public Object? Object { get; set; }
 
-        public Invoice? Invoice { get; set; }
+        //public Invoice? Invoice { get; set; }
+
+        public InvoiceItem? InvoiceItem { get; set; }
 
         public Subscription? Subscription { get; set; }
 

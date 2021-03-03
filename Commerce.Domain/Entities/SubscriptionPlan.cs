@@ -21,6 +21,7 @@ namespace Commerce.Domain.Entities
         public CurrencyAmount? Price { get; set; } // This Subscription belongs to a Product
 
         public bool AutoRenew { get; set; }
+
         public Recurrence Recurrence { get; set; }
 
         //public bool RescheduleWhenOnWeekend { get; set; } = true;
@@ -43,14 +44,7 @@ namespace Commerce.Domain.Entities
 
         public TimeSpan StartTime { get; set; }
 
-        //public TimeSpan? StartEndTime { get; set; }
-
-        //public TimeSpan? EndStartTime { get; set; }
-
         public TimeSpan? Duration { get; set; }
-
-        //public TimeSpan? DurationStretch { get; set; }
-
 
         public SubscriptionPlan WithName(string name)
         {

@@ -31,7 +31,7 @@ namespace Commerce.Application.Deliveries.Queries
             public async Task<Delivery> Handle(GetDeliveryQuery request, CancellationToken cancellationToken)
             {
                 return await applicationDbContext.Deliveries
-                    .Include(x => x.Invoice)
+                    .Include(x => x.InvoiceItem)
                     .Include(x => x.Order)
                     .Include(x => x.OrderItem)
                     .Include(x => x.Items)

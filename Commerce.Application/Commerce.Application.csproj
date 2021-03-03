@@ -15,4 +15,7 @@
     <ProjectReference Include="..\Commerce.Domain\Commerce.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Billing\" />
+  </ItemGroup>
 </Project>

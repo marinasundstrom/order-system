@@ -32,13 +32,15 @@ namespace Commerce.Application.Invoices.Queries
             {
                 return await applicationDbContext.Invoices
                     .Include(x => x.Order)
-                    .Include(x => x.OrderItem)
                     .Include(x => x.Subscription)
-                    .Include(x => x.Delivery)
                     .Include(x => x.Items)
                     .ThenInclude(x => x.OrderItem)
                     .Include(x => x.Items)
                     .ThenInclude(x => x.Product)
+                    .Include(x => x.Items)
+                    .ThenInclude(x => x.Delivery)
+                    .Include(x => x.Items)
+                    .ThenInclude(x => x.DeliveryItem)
                     .AsSplitQuery()
                     .FirstAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
             }

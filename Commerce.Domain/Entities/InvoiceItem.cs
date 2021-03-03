@@ -15,13 +15,17 @@ namespace Commerce.Domain.Entities
 
         public Delivery? Delivery { get; set; }
 
+        public int? DeliveryId { get; set; }
+
         public DeliveryItem? DeliveryItem { get; set; }
+
+        public int? DeliveryItemId { get; set; }
 
         public Product Product { get; set; } = null!;
 
         public Object? Object { get; set; }
 
-        //public Subscription? Subscription { get; set; }
+        public Subscription? Subscription { get; set; }
 
         public CurrencyAmount UnitPrice { get; set; } = null!;
 

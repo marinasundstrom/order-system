@@ -24,10 +24,11 @@ namespace Commerce.Application.Deliveries.Queries
             public async Task<IEnumerable<Delivery>> Handle(GetDeliveriesQuery request, CancellationToken cancellationToken)
             {
                 return await applicationDbContext.Deliveries
-                    .Include(x => x.Invoice)
+                    .Include(x => x.InvoiceItem)
                     .Include(x => x.Order)
                     .Include(x => x.OrderItem)
-                    .OrderBy(x => x.PlannedStartDate)
+                    .OrderBy(x => x.ActualStartDate)
+                    .ThenBy(x => x.PlannedStartDate)
                     .AsSplitQuery()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }

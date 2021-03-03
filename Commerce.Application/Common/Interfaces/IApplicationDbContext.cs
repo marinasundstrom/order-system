@@ -7,18 +7,19 @@ namespace Commerce.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<Delivery> Deliveries { get; set; }
-        DbSet<DeliveryItem> DeliveryItems { get; set; }
-        DbSet<InvoiceItem> InvoiceItems { get; set; }
-        DbSet<Invoice> Invoices { get; set; }
-        DbSet<Object> Objects { get; set; }
+        DbSet<Delivery> Deliveries { get; }
+        DbSet<DeliveryItem> DeliveryItems { get; }
+        DbSet<InvoiceItem> InvoiceItems { get; }
+        DbSet<Invoice> Invoices { get; }
+        DbSet<Object> Objects { get; }
         DbSet<OrderItem> OrderItems { get; set; }
-        DbSet<Order> Orders { get; set; }
-        DbSet<Organization> Organizations { get; set; }
-        DbSet<Person> Persons { get; set; }
-        DbSet<Product> Products { get; set; }
-        DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
-        DbSet<Subscription> Subscriptions { get; set; }
+        DbSet<Order> Orders { get; }
+        DbSet<Organization> Organizations { get; }
+        DbSet<Person> Persons { get; }
+        DbSet<Product> Products { get; }
+        DbSet<SubscriptionPlan> SubscriptionPlans { get; }
+        DbSet<Subscription> Subscriptions { get; }
+        DbSet<BillingPlan> BillingPlans { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

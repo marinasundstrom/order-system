@@ -8,6 +8,9 @@ name: commerce
 services:
 - name: commerce-api
   project: BlazorApp2/BlazorApp2.csproj
+  bindings:
+  - port: 51895
+    protocol: https
 - name: commerce-db
   image: mcr.microsoft.com/mssql/server:2019-latest
   env:

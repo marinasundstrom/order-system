@@ -17,7 +17,6 @@ else
                 <th>Id</th>
                 <th>Invoice Date</th>
                 <th>Order</th>
-                <th>Delivery</th>
                 <th>Subscription</th>
             </tr>
         </thead>
@@ -26,10 +25,9 @@ else
             {
             <tr>
                 <td><a href="/invoices/@invoice.Id">@invoice.Id</a></td>
-                <td>@invoice.InvoiceDate</td>
-                <td><a href="/orders/@invoice.Order.Id">@invoice.Order.Id</a></td>
-                <td><a href="/deliveries/@invoice.Delivery.Id">@invoice.Delivery.Id</a></td>
-                <td><a href="/subscriptions/@invoice.Subscription?.Id">@invoice.Subscription?.Id</a></td>
+                <td>@invoice.InvoiceDate.ToString("g")</td>
+                <td><a href="/orders/@invoice?.Order?.Id">@invoice?.Order?.Id</a></td>
+                <td><a href="/subscriptions/@invoice?.Subscription?.Id">@invoice?.Subscription?.Id</a></td>
             </tr>
             }
         </tbody>

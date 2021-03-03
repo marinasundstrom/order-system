@@ -39,6 +39,8 @@ namespace Commerce.Infrastructure.Persistence
 
         public DbSet<Subscription> Subscriptions { get; set; }
 
+        public DbSet<BillingPlan> BillingPlans { get; set; }
+
 #nullable restore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
