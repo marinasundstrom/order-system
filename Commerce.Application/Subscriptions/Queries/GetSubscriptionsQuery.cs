@@ -30,7 +30,6 @@ namespace Commerce.Application.Subscriptions.Queries
                     .Include(x => x.Deliveries)               
                     .OrderBy(x => x.StartDate)
                     .AsSplitQuery()
-                    .AsNoTracking()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }
         }

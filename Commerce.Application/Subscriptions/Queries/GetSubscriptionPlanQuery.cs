@@ -32,7 +32,6 @@ namespace Commerce.Application.Subscriptions.Queries
             {
                 return await applicationDbContext.SubscriptionPlans
                     .AsSplitQuery()
-                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id);
             }
         }

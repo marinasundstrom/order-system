@@ -31,7 +31,6 @@ namespace Commerce.Application.Products.Queries
             public async Task<Product> Handle(GetProductQuery request, CancellationToken cancellationToken)
             {
                 return await applicationDbContext.Products
-                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
             }
         }

@@ -30,7 +30,6 @@ namespace Commerce.Application.Deliveries.Queries
                     .OrderBy(x => x.ActualStartDate)
                     .ThenBy(x => x.PlannedStartDate)
                     .AsSplitQuery()
-                    .AsNoTracking()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }
         }

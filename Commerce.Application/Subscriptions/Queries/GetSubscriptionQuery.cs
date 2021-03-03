@@ -44,7 +44,6 @@ namespace Commerce.Application.Subscriptions.Queries
                     .ThenInclude(x => x.Items)
                     .ThenInclude(x => x.Product)
                     .AsSplitQuery()
-                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id);
             }
         }

@@ -21,9 +21,7 @@ namespace Commerce.Application.Products.Queries
 
             public async Task<IEnumerable<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
             {
-                return await applicationDbContext.Products
-                    .AsNoTracking()
-                    .ToArrayAsync(cancellationToken: cancellationToken);
+                return await applicationDbContext.Products.ToArrayAsync(cancellationToken: cancellationToken);
             }
         }
     }

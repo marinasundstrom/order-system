@@ -44,7 +44,6 @@ namespace Commerce.Application.Orders.Queries
                     .Include(x => x.Deliveries)
                     .ThenInclude(x => x.OrderItem)
                     .AsSplitQuery()
-                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id);
             }
         }
