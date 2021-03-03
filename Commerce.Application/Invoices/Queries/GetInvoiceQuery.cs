@@ -42,6 +42,7 @@ namespace Commerce.Application.Invoices.Queries
                     .Include(x => x.Items)
                     .ThenInclude(x => x.DeliveryItem)
                     .AsSplitQuery()
+                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
             }
         }

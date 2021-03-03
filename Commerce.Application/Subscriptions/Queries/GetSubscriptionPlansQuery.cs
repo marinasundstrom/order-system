@@ -25,6 +25,7 @@ namespace Commerce.Application.Subscriptions.Queries
             {
                 return await applicationDbContext.SubscriptionPlans              
                     .AsSplitQuery()
+                    .AsNoTracking()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }
         }

@@ -27,6 +27,7 @@ namespace Commerce.Application.Orders.Queries
                     .Include(x => x.Subscription)
                     .OrderBy(x => x.OrderDate)
                     .AsSplitQuery()
+                    .AsNoTracking()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }
         }

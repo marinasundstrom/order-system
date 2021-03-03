@@ -32,6 +32,7 @@ namespace Commerce.Application.Deliveries.Queries
             {
                 return await applicationDbContext.Deliveries
                     .Include(x => x.InvoiceItem)
+                        .ThenInclude(x => x!.Invoice)
                     .Include(x => x.Order)
                     .Include(x => x.OrderItem)
                     .Include(x => x.Items)
@@ -39,6 +40,7 @@ namespace Commerce.Application.Deliveries.Queries
                     .Include(x => x.Items)
                     .ThenInclude(x => x.Product)
                     .AsSplitQuery()
+                    .AsNoTracking()
                     .FirstAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
             }
         }

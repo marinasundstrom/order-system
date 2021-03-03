@@ -28,6 +28,7 @@ namespace Commerce.Application.Invoices.Queries
                     .Include(x => x.Subscription)
                     .OrderBy(x => x.InvoiceDate)
                     .AsSplitQuery()
+                    .AsNoTracking()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }
         }
