@@ -20,4 +20,4 @@ services:
     value: "Y"
   bindings:
     - port: 1433
-      connectionString: Server=${host},${port};Database=IdentityDb;User Id=sa;Password=${env:SA_PASSWORD}
+      connectionString: Server=${host},${port};Database=CommerceDb;User Id=sa;Password=${env:SA_PASSWORD}
