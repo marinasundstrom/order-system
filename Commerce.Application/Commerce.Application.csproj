@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Billing\" />
+    <Folder Include="Invoices\Commands\" />
   </ItemGroup>
 </Project>

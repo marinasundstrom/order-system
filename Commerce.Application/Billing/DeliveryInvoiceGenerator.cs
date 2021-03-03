@@ -36,6 +36,8 @@ namespace Commerce.Application.Billing
                     .ThenInclude(d => d.Product)
                 .Include(d => d.Items)
                     .ThenInclude(d => d.Object)
+                .Include(d => d.Items)
+                    .ThenInclude(d => d.Delivery)
                 .Where(d => d.Status == DeliveryStatus.Delivered)
                 .AsQueryable();
 

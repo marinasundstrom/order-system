@@ -50,14 +50,6 @@ namespace Commerce.Infrastructure.Persistence
             }
 
             await context.SaveChangesAsync();
-
-            DeliveryInvoiceGenerator deliveryInvoiceGenerator = new DeliveryInvoiceGenerator(context);
-
-            var invoices = await deliveryInvoiceGenerator.GenerateInvoicesAsync();
-
-            context.Invoices.AddRange(invoices);
-
-            await context.SaveChangesAsync();
         }
     }
 }

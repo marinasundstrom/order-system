@@ -5,40 +5,44 @@
 
 <p>The invoices.</p>
 
+<button type="button" class="btn btn-primary" @onclick="GenerateInvoices">Generate invoices</button>
+
 @if (invoices == null)
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Invoice Date</th>
-                <th>Order</th>
-                <th>Subscription</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var invoice in invoices)
+<p><em>Loading...</em></p> }
+            else
             {
-            <tr>
-                <td><a href="/invoices/@invoice.Id">@invoice.Id</a></td>
-                <td>@invoice.InvoiceDate.ToString("g")</td>
-                <td><a href="/orders/@invoice?.Order?.Id">@invoice?.Order?.Id</a></td>
-                <td><a href="/subscriptions/@invoice?.Subscription?.Id">@invoice?.Subscription?.Id</a></td>
-            </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Invoice Date</th>
+            <th>Order</th>
+            <th>Subscription</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in invoices)
+        {
+<tr>
+    <td><a href="/invoices/@invoice.Id">@invoice.Id</a></td>
+    <td>@invoice.InvoiceDate.ToString("g")</td>
+    <td><a href="/orders/@invoice?.Order?.Id">@invoice?.Order?.Id</a></td>
+    <td><a href="/subscriptions/@invoice?.Subscription?.Id">@invoice?.Subscription?.Id</a></td>
+</tr>}
+    </tbody>
+</table>}
+
+@code { private IEnumerable<Invoice>? invoices;
+
+            protected override async Task OnInitializedAsync()
+            {
+                invoices = await Mediator.Send(new GetInvoicesQuery());
             }
-        </tbody>
-    </table>
-}
 
-@code {
-    private IEnumerable<Invoice>? invoices;
+            private async Task GenerateInvoices()
+            {
+                await Mediator.Send(new GenerateInvoicesCommand());
 
-    protected override async Task OnInitializedAsync()
-    {
-        invoices = await Mediator.Send(new GetInvoicesQuery());
-    }
-}
+                invoices = await Mediator.Send(new GetInvoicesQuery());
+            } }
