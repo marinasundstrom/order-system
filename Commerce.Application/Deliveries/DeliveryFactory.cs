@@ -1,4 +1,5 @@
 ﻿using Commerce.Domain.Entities;
+using Commerce.Domain.Enums;
 using Commerce.Domain.ValueObjects;
 using System;
 
@@ -29,6 +30,9 @@ namespace Commerce.Application.Deliveries
 
         public void UpdateDelivery(Delivery delivery, Order order)
         {
+            delivery.Status = DeliveryStatus.Scheduled;
+            delivery.StatusDate = DateTime.Now;
+
             delivery.Order = order;
             delivery.Subscription = order.Subscription;
             delivery.Object = order.Object;
@@ -40,6 +44,9 @@ namespace Commerce.Application.Deliveries
 
         public void UpdateDelivery(Delivery delivery, OrderItem orderItem)
         {
+            delivery.Status = DeliveryStatus.Scheduled;
+            delivery.StatusDate = DateTime.Now;
+
             delivery.Order = orderItem.Order;
             delivery.OrderItem = orderItem;
             delivery.Subscription = orderItem.Subscription ?? orderItem.Order.Subscription;

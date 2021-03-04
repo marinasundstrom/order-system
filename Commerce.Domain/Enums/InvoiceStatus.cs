@@ -4,6 +4,7 @@
     {
         Draft = 1,
         Sent,
+        Paid,
         Cancelled
     }
 }

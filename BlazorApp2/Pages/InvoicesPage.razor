@@ -19,6 +19,11 @@ else
              </tr>
 
              <tr>
+                 <th>Status</th>
+                 <td>@invoice.Status <small>(@invoice.StatusDate.ToString("g"))</small></td>
+             </tr>
+
+             <tr>
                  <th>Order</th>
                  <td><a href="/orders/@invoice.Order?.Id">@invoice.Order?.Id</a></td>
              </tr>

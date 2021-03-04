@@ -2,7 +2,11 @@
 {
     public enum OrderStatus
     {
-        Draft = 1,
-        Cancelled
+        Created = 0,
+        Saved,
+        Approved,
+        Voided,
+        Completed,
+        PayerActionRequired
     }
 }
