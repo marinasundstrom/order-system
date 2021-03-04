@@ -9,11 +9,6 @@ else
 {
     <h1>Order @order.Id</h1>
 
-    @if(order.Subscription != null) 
-    {
-        <p>Subscription: <a href="/subscriptions/@order.Subscription?.Id">@order.Subscription?.Id</a></p>
-    }
-
     <h2>Details</h2>
 
     <table class="table table-striped">
@@ -28,6 +23,18 @@ else
             </tr>
         </tbody>
     </table>
+
+    @if (order.Subscription != null)
+    {
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Subscription</th>
+                    <td><a href="/subscriptions/@order.Subscription?.Id">@order.Subscription?.Id</a></td>
+                </tr>
+            </tbody>
+        </table>
+    }
 
     @if (order?.DeliveryDetails?.Name?.FirstName != null)
     {
