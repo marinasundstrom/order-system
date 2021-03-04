@@ -6,7 +6,6 @@ using Commerce.Application.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
-using Commerce.Application.Billing;
 
 namespace Commerce.Infrastructure.Persistence
 {
@@ -17,10 +16,6 @@ namespace Commerce.Infrastructure.Persistence
             OrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
              new DeliveryFactory(),
              new SubscriptionDeliveryDatesGenerator());
-
-            /*
-            DeliveryToInvoiceGenerator deliveryToInvoiceGenerator = new DeliveryToInvoiceGenerator();
-            */
 
             foreach (var order in context.Orders.AsQueryable()
                 .Include(x => x.Subscription)
@@ -42,9 +37,6 @@ namespace Commerce.Infrastructure.Persistence
 
                     delivery.ActualStartDate = delivery.PlannedStartDate;
                     delivery.ActualEndDate = delivery.PlannedEndDate;
-
-                    // context.Invoices.Add(
-                    //    deliveryToInvoiceGenerator.GenerateInvoice(delivery));
                 }
 
             }

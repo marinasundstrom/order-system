@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Commerce.Application.Billing;
 using Commerce.Application.Common.Interfaces;
 using MediatR;
 

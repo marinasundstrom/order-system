@@ -7,7 +7,7 @@ using Commerce.Domain.Entities;
 using Commerce.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace Commerce.Application.Billing
+namespace Commerce.Application.Invoices
 {
     public class DeliveryInvoiceGenerator
     {
@@ -83,6 +83,9 @@ namespace Commerce.Application.Billing
                 {
                     foreach (DeliveryItem deliveryItem in delivery.Items)
                     {
+                        if (!deliveryItem.Bill)
+                            continue;
+
                         invoice.Items.Add(new InvoiceItem()
                         {
                             Object = deliveryItem.Object ?? delivery?.Object,
@@ -101,7 +104,12 @@ namespace Commerce.Application.Billing
                     }
                 }
 
-                invoices.Add(invoice);
+                if (invoice.Items.Any())
+                {
+                    // Calculate totals
+
+                    invoices.Add(invoice);
+                }
             }
 
             return invoices;

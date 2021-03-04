@@ -62,6 +62,7 @@ namespace Commerce.Application.Deliveries
             deliveryItem.UnitPrice = orderItem.UnitPrice.Clone();
             deliveryItem.SubTotal = orderItem.SubTotal.Clone();
             deliveryItem.Note = orderItem?.Note;
+            deliveryItem.Bill = orderItem?.Bill ?? true;
         }
     }
 }

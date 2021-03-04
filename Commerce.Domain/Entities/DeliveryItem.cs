@@ -28,5 +28,7 @@ namespace Commerce.Domain.Entities
         public CurrencyAmount SubTotal { get; set; } = null!;
 
         public string? Note { get; set; }
+
+        public bool Bill { get; set; }
     }
 }

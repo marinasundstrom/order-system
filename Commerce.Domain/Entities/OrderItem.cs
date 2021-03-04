@@ -37,5 +37,7 @@ namespace Commerce.Domain.Entities
         public DeliveryDetails? DeliveryDetails { get; set; }
 
         public List<Delivery> Deliveries { get; } = new List<Delivery>();
+
+        public bool Bill { get; set; } = true;
     }
 }

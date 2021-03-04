@@ -4,6 +4,8 @@ using Commerce.Infrastructure.Identity;
 using Commerce.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Commerce.Infrastructure.Persistence
 {
@@ -43,6 +45,16 @@ namespace Commerce.Infrastructure.Persistence
 
 #nullable restore
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseLoggerFactory(
+                LoggerFactory.Create(builder => { builder.AddConsole(); }));
+
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -56,6 +68,11 @@ namespace Commerce.Infrastructure.Persistence
                 .HasOne(s => s.OrderItem!)
                 .WithOne(oi => oi.Subscription!)
                 .HasForeignKey<Subscription>(s => s.OrderItemId);
+
+            modelBuilder.Entity<Delivery>()
+                .HasOne(s => s.InvoiceItem!)
+                .WithOne(oi => oi.Delivery!)
+                .HasForeignKey<InvoiceItem>(s => s.DeliveryId);
         }
     }
 }
