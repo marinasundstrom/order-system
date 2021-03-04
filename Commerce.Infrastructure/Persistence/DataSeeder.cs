@@ -21,11 +21,11 @@ namespace Commerce.Infrastructure.Persistence
                 //await context.Persistencebase.MigrateAsync();
 
                 context.Orders.AddRange(new[] {
-                    //CreateOrderWith2Items(),
-                    //CreateOrderWith2ItemsAndOneWithInlineAddress(),
-                    //CreateOrderWith2SubscriptionItems(),
-                    //CreateSubscriptionOrderWith1Item(),
-                    //CreateSubscriptionOrderWith2Items(),
+                    CreateOrderWith2Items(),
+                    CreateOrderWith2ItemsAndOneWithInlineAddress(),
+                    CreateOrderWith2SubscriptionItems(),
+                    CreateSubscriptionOrderWith1Item(),
+                    CreateSubscriptionOrderWith2Items(),
                     CreateOrderWithInlineDeliveryAddressesAndInlineSubscription()
                  });
 
