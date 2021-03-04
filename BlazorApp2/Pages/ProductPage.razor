@@ -9,11 +9,26 @@ else
 {
     <h1>@product.Id @product.Name</h1>
 
-    <p>@product.Description</p>
-
-    <p>@product.Price</p>
-
-    <p>@product.CompareAtPrice</p>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Product Type</th>
+                <td>@product.ProductType</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>@product.Description</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>@product.Price</td>
+            </tr>
+            <tr>
+                <th>Compare At Price</th>
+                <td>@product.CompareAtPrice</td>
+            </tr>
+        </tbody>
+    </table>
 }
 
 @code {
