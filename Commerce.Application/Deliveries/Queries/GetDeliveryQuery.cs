@@ -33,7 +33,6 @@ namespace Commerce.Application.Deliveries.Queries
                 return await applicationDbContext.Deliveries
                     .Include(x => x.InvoiceItem)
                     .Include(x => x.Order)
-                    .Include(x => x.OrderItem)
                     .Include(x => x.Items)
                     .ThenInclude(x => x.OrderItem)
                     .Include(x => x.Items)

@@ -48,7 +48,6 @@ namespace Commerce.Application.Deliveries
             delivery.StatusDate = DateTime.Now;
 
             delivery.Order = orderItem.Order;
-            delivery.OrderItem = orderItem;
             delivery.Subscription = orderItem.Subscription ?? orderItem.Order.Subscription;
             delivery.Object = orderItem.Object;
             delivery.DeliveryDetails = orderItem.HasDeliveryDetails ? orderItem?.DeliveryDetails?.Clone() : orderItem?.Order?.DeliveryDetails?.Clone();

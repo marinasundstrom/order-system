@@ -17,6 +17,7 @@ else
                 <th>Id</th>
                 <th>Status</th>
                 <th>Order</th>
+                <th>Subscription</th>
                 <th>Planned Start</th>
                 <th>Planned End</th>
                 <th>Actual Start</th>
@@ -31,7 +32,8 @@ else
                 <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
                 <td>@delivery.Status</td>
                 <td><a href="/orders/@delivery.Order.Id">@delivery.Order.Id</a></td>
-                <td>@delivery.PlannedStartDate.ToString("g")</td>
+                <td><a href="/subscriptions/@delivery?.Subscription?.Id">@delivery?.Subscription?.Id</a></td>
+                <td>@delivery!.PlannedStartDate.ToString("g")</td>
                 <td>@delivery.PlannedEndDate?.ToString("g")</td>
                 <td>@delivery.ActualStartDate?.ToString("g")</td>
                 <td>@delivery.ActualEndDate?.ToString("g")</td>

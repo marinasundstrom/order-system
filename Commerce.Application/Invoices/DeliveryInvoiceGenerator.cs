@@ -90,7 +90,7 @@ namespace Commerce.Application.Invoices
                         {
                             Object = deliveryItem.Object ?? delivery?.Object,
                             Order = deliveryItem.Order ?? delivery!.Order,
-                            OrderItem = deliveryItem?.OrderItem ?? delivery?.OrderItem,
+                            OrderItem = deliveryItem?.OrderItem,
                             Delivery = deliveryItem?.Delivery ?? delivery,
                             DeliveryItem = deliveryItem,
                             Product = deliveryItem!.Product,

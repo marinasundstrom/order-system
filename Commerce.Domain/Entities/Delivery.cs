@@ -14,11 +14,7 @@ namespace Commerce.Domain.Entities
 
         public Order Order { get; set; } = null!;
 
-        public OrderItem? OrderItem { get; set; }
-
         public Object? Object { get; set; }
-
-        //public Invoice? Invoice { get; set; }
 
         public InvoiceItem? InvoiceItem { get; set; }
 
