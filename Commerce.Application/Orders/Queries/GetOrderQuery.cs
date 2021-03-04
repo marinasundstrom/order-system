@@ -41,8 +41,6 @@ namespace Commerce.Application.Orders.Queries
                     .ThenInclude(x => x!.SubscriptionPlan)
                     .Include(x => x.Deliveries)
                     .ThenInclude(x => x.Order)
-                    .Include(x => x.Deliveries)
-                    .ThenInclude(x => x.OrderItem)
                     .AsSplitQuery()
                     .FirstAsync(x => x.Id == request.Id);
             }

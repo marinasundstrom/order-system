@@ -28,7 +28,7 @@ namespace Commerce.Application.Subscriptions.Queries
                     .Include(x => x.Order)
                     .Include(x => x.OrderItem)
                     .Include(x => x.Deliveries)               
-                    .OrderBy(x => x.StartDate)
+                    .OrderByDescending(x => x.StartDate)
                     .AsSplitQuery()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }

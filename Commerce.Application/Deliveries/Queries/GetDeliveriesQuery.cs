@@ -26,9 +26,9 @@ namespace Commerce.Application.Deliveries.Queries
                 return await applicationDbContext.Deliveries
                     .Include(x => x.InvoiceItem)
                     .Include(x => x.Order)
-                    .Include(x => x.OrderItem)
-                    .OrderBy(x => x.ActualStartDate)
-                    .ThenBy(x => x.PlannedStartDate)
+                    .Include(x => x.Subscription)
+                    .OrderByDescending(x => x.ActualStartDate)
+                    .ThenByDescending(x => x.PlannedStartDate)
                     .AsSplitQuery()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }

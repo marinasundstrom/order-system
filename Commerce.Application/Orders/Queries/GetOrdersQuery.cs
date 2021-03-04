@@ -25,7 +25,7 @@ namespace Commerce.Application.Orders.Queries
             {
                 return await applicationDbContext.Orders
                     .Include(x => x.Subscription)
-                    .OrderBy(x => x.OrderDate)
+                    .OrderByDescending(x => x.OrderDate)
                     .AsSplitQuery()
                     .ToArrayAsync(cancellationToken: cancellationToken);
             }

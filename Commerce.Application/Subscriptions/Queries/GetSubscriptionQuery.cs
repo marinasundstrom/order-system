@@ -37,8 +37,6 @@ namespace Commerce.Application.Subscriptions.Queries
                     .Include(x => x.Deliveries)
                     .ThenInclude(x => x.Order)
                     .Include(x => x.Deliveries)
-                    .ThenInclude(x => x.OrderItem)
-                    .Include(x => x.Deliveries)
                     .ThenInclude(x => x.Items)
                     .Include(x => x.Deliveries)
                     .ThenInclude(x => x.Items)
