@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Commerce.Domain.Enums;
 
 namespace Commerce.Domain.Entities
@@ -7,6 +8,9 @@ namespace Commerce.Domain.Entities
     public class Delivery
     {
         public int Id { get; set; }
+
+        [NotMapped]
+        public string Description => Id.ToString();
 
         public DeliveryStatus Status { get; set; }
 

@@ -1,5 +1,8 @@
 ﻿@page "/deliveries"
+@using Radzen
+@using Radzen.Blazor
 @inject IMediator Mediator
+@inject NavigationManager NavigationManager
 
 <h1>Deliveries</h1>
 
@@ -11,6 +14,13 @@
 }
 else
 {
+    <RadzenScheduler @ref=@scheduler style="height: 768px;" TItem="Delivery" Data=@deliveries StartProperty="PlannedStartDate" EndProperty="PlannedEndDate"
+        TextProperty="Description" SelectedIndex="2" AppointmentSelect=@OnAppointmentSelect >
+        <RadzenDayView />
+        <RadzenWeekView />
+        <RadzenMonthView />
+    </RadzenScheduler>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -45,10 +55,18 @@ else
 }
 
 @code {
+    RadzenScheduler<Delivery>? scheduler;
+
     private IEnumerable<Delivery>? deliveries;
 
     protected override async Task OnInitializedAsync()
     {
         deliveries = await Mediator.Send(new GetDeliveriesQuery());
     }
+
+    void OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Delivery> args)
+    {
+        NavigationManager.NavigateTo($"/deliveries/{args.Data.Id}");
+    }
+
 }

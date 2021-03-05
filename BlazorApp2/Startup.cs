@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Radzen.Blazor;
+using Radzen;
 
 namespace BlazorApp2
 {
@@ -36,6 +38,9 @@ namespace BlazorApp2
             services.AddControllers();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            // Radzen
+            services.AddScoped<DialogService>();
 
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
 

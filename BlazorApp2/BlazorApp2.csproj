@@ -31,6 +31,7 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.10.7" />
     <PackageReference Include="QuartzCronGeneratorLibrary" Version="0.9.1" />
     <PackageReference Include="Microsoft.Tye.Extensions.Configuration" Version="0.6.0-alpha.21070.5" />
+    <PackageReference Include="Radzen.Blazor" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>

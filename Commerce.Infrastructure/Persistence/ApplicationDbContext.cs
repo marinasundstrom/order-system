@@ -68,11 +68,6 @@ namespace Commerce.Infrastructure.Persistence
                 .HasOne(s => s.OrderItem!)
                 .WithOne(oi => oi.Subscription!)
                 .HasForeignKey<Subscription>(s => s.OrderItemId);
-
-            modelBuilder.Entity<Delivery>()
-                .HasOne(s => s.InvoiceItem!)
-                .WithOne(oi => oi.Delivery!)
-                .HasForeignKey<InvoiceItem>(s => s.DeliveryId);
         }
     }
 }
