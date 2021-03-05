@@ -18,8 +18,6 @@ namespace Commerce.Infrastructure.Persistence
 
                 await context.Database.EnsureCreatedAsync();
 
-                //await context.Persistencebase.MigrateAsync();
-
                 context.Orders.AddRange(new[] {
                     CreateOrderWith2Items(),
                     CreateOrderWith2ItemsAndOneWithInlineAddress(),
@@ -30,8 +28,6 @@ namespace Commerce.Infrastructure.Persistence
                  });
 
                 await context.SaveChangesAsync();
-
-                await Generators.GenerateData(context);
             }
         }
     }

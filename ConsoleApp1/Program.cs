@@ -59,8 +59,6 @@ namespace ConsoleApp1
              });
 
             await context.SaveChangesAsync();
-
-            await Generators.GenerateData(context);
         }
     }
 }

@@ -9,6 +9,8 @@ else
 {
     <h1>Order @order.Id</h1>
 
+    <button type="button" class="btn btn-primary" @onclick="GenerateDeliveries">Generate deliveries</button>
+
     <h2>Details</h2>
 
     <table class="table table-striped">
@@ -114,50 +116,46 @@ else
             }
         </tbody>
     </table>
-
-    @*
-        @if (deliveries == null)
+  
+        @if (deliveries != null)
         {
-        <p><em>Loading...</em></p>
-        }
-        else
-        {*@
-    <h2>Deliveries</h2>
+            <h2>Deliveries</h2>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Status</th>
-                <th>Planned Start</th>
-                <th>Planned End</th>
-                <th>Actual Start</th>
-                <th>Actual End</th>
-                <th>Subscription</th>
-                <th>Invoice</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var delivery in order.Deliveries)
-            {
-                <tr>
-                    <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
-                    <td>@delivery.Status</td>
-                    <td>@delivery.PlannedStartDate.ToString("g")</td>
-                    <td>@delivery.PlannedEndDate?.ToString("g")</td>
-                    <td>@delivery.ActualStartDate?.ToString("g")</td>
-                    <td>@delivery.ActualEndDate?.ToString("g")</td>
-                    <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
-                    <td><a href="/invoices/@delivery.InvoiceItem?.Invoice?.Id">@delivery.InvoiceItem?.Invoice?.Id</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @*}*@
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Status</th>
+                        <th>Planned Start</th>
+                        <th>Planned End</th>
+                        <th>Actual Start</th>
+                        <th>Actual End</th>
+                        <th>Subscription</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var delivery in deliveries)
+                    {
+                        <tr>
+                            <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
+                            <td>@delivery.Status</td>
+                            <td>@delivery.PlannedStartDate.ToString("g")</td>
+                            <td>@delivery.PlannedEndDate?.ToString("g")</td>
+                            <td>@delivery.ActualStartDate?.ToString("g")</td>
+                            <td>@delivery.ActualEndDate?.ToString("g")</td>
+                            <td><a href="/subscriptions/@delivery.Subscription?.Id">@delivery.Subscription?.Id</a></td>
+                            <td><a href="/invoices/@delivery.InvoiceItem?.Invoice?.Id">@delivery.InvoiceItem?.Invoice?.Id</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    }
 }
 
 @code {
     private Order? order;
+    private IEnumerable<Delivery>? deliveries;
 
     [Parameter]
     public int Id { get; set; }
@@ -165,5 +163,13 @@ else
     protected override async Task OnInitializedAsync()
     {
         order = await Mediator.Send(new GetOrderQuery(Id));
+        deliveries = order.Deliveries.Any() ? order.Deliveries : null;
+    }
+
+    private async Task GenerateDeliveries()
+    {
+        await Mediator.Send(new GenerateDeliveriesCommand(Id));
+
+        deliveries = await Mediator.Send(new GetDeliveriesQuery(Id));
     }
 }

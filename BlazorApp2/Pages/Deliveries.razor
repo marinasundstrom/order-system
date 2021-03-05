@@ -8,6 +8,8 @@
 
 <p>The deliveries.</p>
 
+<button type="button" class="btn btn-primary" @onclick="GenerateDeliveries">Generate deliveries</button>
+
 @if (deliveries == null)
 {
     <p><em>Loading...</em></p>
@@ -61,7 +63,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        deliveries = await Mediator.Send(new GetDeliveriesQuery());
+        deliveries = await Mediator.Send(new GetDeliveriesQuery(null));
     }
 
     void OnAppointmentSelect(SchedulerAppointmentSelectEventArgs<Delivery> args)
@@ -69,4 +71,10 @@ else
         NavigationManager.NavigateTo($"/deliveries/{args.Data.Id}");
     }
 
+    private async Task GenerateDeliveries()
+    {
+        await Mediator.Send(new GenerateDeliveriesCommand(null));
+
+        deliveries = await Mediator.Send(new GetDeliveriesQuery(null));
+    }
 }
