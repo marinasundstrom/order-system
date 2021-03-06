@@ -230,7 +230,7 @@ namespace Commerce.Infrastructure.Persistence
             var order2 = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now,
                 DeliveryDetails = new DeliveryDetails()
                 {
@@ -272,7 +272,7 @@ namespace Commerce.Infrastructure.Persistence
             var order2 = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now,
                 DeliveryDetails = new DeliveryDetails()
                 {
@@ -329,7 +329,7 @@ namespace Commerce.Infrastructure.Persistence
             var order2 = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now
             };
 
@@ -388,7 +388,7 @@ namespace Commerce.Infrastructure.Persistence
             var order = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now,
                 Object = TestData.Object2,
                 Subscription = TestData.CreateSubscription(2, DateTime.Now.Date, DateTime.Now.Date.AddMonths(12)),
@@ -424,7 +424,7 @@ namespace Commerce.Infrastructure.Persistence
             var order = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now,
                 Object = TestData.Object1,
                 Subscription = TestData.CreateSubscription(3, DateTime.Now.Date, DateTime.Now.Date.AddMonths(12)),
@@ -470,7 +470,7 @@ namespace Commerce.Infrastructure.Persistence
             var order4 = new Order()
             {
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Approved,
+                Status = OrderStatuses.Approved,
                 StatusDate = DateTime.Now,
                 DeliveryDetails = new DeliveryDetails()
                 {

@@ -31,6 +31,7 @@ namespace Commerce.Application.Orders.Queries
             public async Task<Order> Handle(GetOrderQuery request, CancellationToken cancellationToken)
             {
                 return await applicationDbContext.Orders
+                    .Include(x => x.Status)
                     .Include(x => x.Subscription)
                     .ThenInclude(x => x!.SubscriptionPlan)
                     .Include(x => x.Items)

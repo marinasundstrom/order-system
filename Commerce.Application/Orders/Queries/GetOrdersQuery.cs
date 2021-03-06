@@ -24,6 +24,7 @@ namespace Commerce.Application.Orders.Queries
             public async Task<IEnumerable<Order>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
             {
                 return await applicationDbContext.Orders
+                    .Include(x => x.Status)
                     .Include(x => x.Subscription)
                     .OrderByDescending(x => x.OrderDate)
                     .AsSplitQuery()

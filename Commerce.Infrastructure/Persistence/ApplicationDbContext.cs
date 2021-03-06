@@ -25,6 +25,8 @@ namespace Commerce.Infrastructure.Persistence
 
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        public DbSet<OrderStatus> OrderStatus { get; set; }
+
         public DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<InvoiceItem> InvoiceItems { get; set; }

@@ -10,7 +10,9 @@ namespace Commerce.Domain.Entities
 
         public DateTime OrderDate { get; set; }
 
-        public OrderStatus Status { get; set; }
+        public OrderStatus Status { get; set; } = null!;
+
+        public int StatusId { get; set; }
 
         public DateTime StatusDate { get; set; }
 

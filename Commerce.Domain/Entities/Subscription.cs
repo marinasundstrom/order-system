@@ -36,5 +36,12 @@ namespace Commerce.Domain.Entities
         public string? Note { get; set; }
 
         public List<Delivery> Deliveries { get; } = new List<Delivery>();
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
+        public DateTime DeletedDate { get; set; }
+
     }
 }

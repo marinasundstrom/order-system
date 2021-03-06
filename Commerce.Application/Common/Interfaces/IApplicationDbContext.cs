@@ -14,6 +14,7 @@ namespace Commerce.Application.Common.Interfaces
         DbSet<Object> Objects { get; }
         DbSet<OrderItem> OrderItems { get; set; }
         DbSet<Order> Orders { get; }
+        DbSet<OrderStatus> OrderStatus { get; }
         DbSet<Organization> Organizations { get; }
         DbSet<Person> Persons { get; }
         DbSet<Product> Products { get; }
