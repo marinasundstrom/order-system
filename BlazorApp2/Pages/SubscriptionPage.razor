@@ -65,17 +65,20 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (DeliveryItem deliveryItem in subscription.Deliveries.ElementAt(0)!.Items)
+            @if (subscription.Deliveries.Any())
             {
-                <tr>
-                    <td><a href="/orders/@deliveryItem.Order.Id">@deliveryItem.Order.Id</a></td>
-                    <td>@deliveryItem?.OrderItem?.Id</td>
-                    <td><a href="/products/@deliveryItem?.Product?.Id">@deliveryItem?.Product?.Name</a></td>
+                @foreach (DeliveryItem deliveryItem in subscription.Deliveries.ElementAt(0)!.Items)
+                {
+                    <tr>
+                        <td><a href="/orders/@deliveryItem.Order.Id">@deliveryItem.Order.Id</a></td>
+                        <td>@deliveryItem?.OrderItem?.Id</td>
+                        <td><a href="/products/@deliveryItem?.Product?.Id">@deliveryItem?.Product?.Name</a></td>
 
-                    <td>@deliveryItem!.UnitPrice</td>
-                    <td>@deliveryItem.Quantity @deliveryItem.Unit</td>
-                    <td>@deliveryItem.SubTotal</td>
-                </tr>
+                        <td>@deliveryItem!.UnitPrice</td>
+                        <td>@deliveryItem.Quantity @deliveryItem.Unit</td>
+                        <td>@deliveryItem.SubTotal</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
