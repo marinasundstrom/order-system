@@ -1,6 +1,6 @@
 ﻿using Commerce.Domain.Entities;
 
-namespace Commerce.Domain.Enums
+namespace Commerce.Domain.Entities
 {
     public class OrderStatuses
     {

@@ -18,8 +18,14 @@ else
                 <th>Order Date</th>
                 <th>Status</th>
                 <th>Subscription</th>
-@*                <th>SubTotal</th>
-*@            </tr>
+                <th>Planned Start</th>
+                <th>Planned End</th>
+                <th>Actual Start</th>
+                <th>Actual End</th>
+                <th>Invoice</th>
+                @*                <th>SubTotal</th>
+                *@
+            </tr>
         </thead>
         <tbody>
             @foreach (var order in orders)
@@ -29,6 +35,11 @@ else
                 <td>@order.OrderDate.ToString("g")</td>
                 <td>@order.Status</td>
                 <td><a href="/subscriptions/@order.Subscription?.Id">@order.Subscription?.Id</a></td>
+                <td>@order!.PlannedStartDate.ToString("g")</td>
+                <td>@order.PlannedEndDate?.ToString("g")</td>
+                <td>@order.ActualStartDate?.ToString("g")</td>
+                <td>@order.ActualEndDate?.ToString("g")</td>
+                <td><a href="/invoices/@order.InvoiceItem?.Invoice?.Id">@order.InvoiceItem?.Invoice?.Id</a></td>
                 @*                <td>@order.SubTotal</td>
                 *@
             </tr>

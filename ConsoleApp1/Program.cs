@@ -47,7 +47,7 @@ namespace ConsoleApp1
 
             OrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
                 new DeliveryFactory(),
-                new SubscriptionDeliveryDatesGenerator());
+                new SubscriptionOrderDateGenerator());
 
             context.Orders.AddRange(new[] {
                 CreateOrderWith2Items(),

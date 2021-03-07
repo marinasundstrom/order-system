@@ -10,11 +10,11 @@ namespace Commerce.Application.Orders
     public class OrderDeliveryGenerator
     {
         private DeliveryFactory deliveryFactory;
-        private readonly SubscriptionDeliveryDatesGenerator deliveryDatesGenerator;
+        private readonly SubscriptionOrderDateGenerator deliveryDatesGenerator;
 
         public OrderDeliveryGenerator(
             DeliveryFactory deliveryFactory,
-            SubscriptionDeliveryDatesGenerator deliveryDatesGenerator)
+            SubscriptionOrderDateGenerator deliveryDatesGenerator)
         {
             this.deliveryFactory = deliveryFactory;
             this.deliveryDatesGenerator = deliveryDatesGenerator;
@@ -46,7 +46,7 @@ namespace Commerce.Application.Orders
                     {
                         // Subscription Item with multiple Deliveries
 
-                        var dates = deliveryDatesGenerator.GetDeliveryDatesFromSubscription(orderItem.Subscription, startDate, endDate);
+                        var dates = deliveryDatesGenerator.GetOrderDatesFromSubscription(orderItem.Subscription, startDate, endDate);
 
                         foreach (var date in dates)
                         {
@@ -80,7 +80,7 @@ namespace Commerce.Application.Orders
             {
                 // Subscription Order
 
-                var dates = deliveryDatesGenerator.GetDeliveryDatesFromSubscription(order.Subscription, startDate, endDate);
+                var dates = deliveryDatesGenerator.GetOrderDatesFromSubscription(order.Subscription, startDate, endDate);
 
                 foreach (var date in dates)
                 {

@@ -8,31 +8,35 @@ using System.Collections.Generic;
 
 namespace Commerce.Application.Subscriptions
 {
-    public class SubscriptionDeliveryDatesGenerator
+    public class SubscriptionOrderDateGenerator
     {
         /// <remarks>
         /// Make sure to pass dates without time.
         /// </remarks>
-        public IEnumerable<(DateTime Start, DateTime? End)> GetDeliveryDatesFromSubscription(Subscription subscription, DateTime? startDate = null, DateTime? endDate = null)
+        public IEnumerable<(DateTime Start, DateTime? End)> GetOrderDatesFromSubscription(Subscription subscription, DateTime? startDate = null, DateTime? endDate = null)
         {
             DateTime? after = subscription.StartDate;
 
             (DateTime Start, DateTime? End)? current = null;
 
-            do
+            while(true)
             {
-                current = GetDeliveryDate(subscription, after.GetValueOrDefault());
+                current = GetOrderDate(subscription, after.GetValueOrDefault());
                 after = current?.Start;
+
+                if (current == null)
+                {
+                    break;
+                }
 
                 yield return current.GetValueOrDefault();
             }
-            while (current != null);
         }
 
         /// <remarks>
         /// Make sure to pass date without time.
         /// </remarks>
-        public (DateTime Start, DateTime? End)? GetDeliveryDate(Subscription subscription, DateTime? after)
+        public (DateTime Start, DateTime? End)? GetOrderDate(Subscription subscription, DateTime? after)
         {
             IRecurring? recurring = null;
 

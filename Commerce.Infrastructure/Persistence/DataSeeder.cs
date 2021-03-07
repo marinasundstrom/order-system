@@ -3,6 +3,7 @@ using Commerce.Domain.Enums;
 using Commerce.Domain.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static Commerce.Infrastructure.Persistence.TestData;
 
@@ -26,6 +27,8 @@ namespace Commerce.Infrastructure.Persistence
                     CreateSubscriptionOrderWith2Items(),
                     CreateOrderWithInlineDeliveryAddressesAndInlineSubscription()
                  });
+
+                context.OrderStatus.AddRange(typeof(OrderStatuses).GetProperties().Select(x => (OrderStatus)x.GetValue(null)!));
 
                 await context.SaveChangesAsync();
             }

@@ -61,15 +61,22 @@ namespace Commerce.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Subscription>()
-                .HasOne(s => s.Order!)
-                .WithOne(oi => oi.Subscription!)
-                .HasForeignKey<Subscription>(s => s.OrderId);
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.SubOrders!)
+                .WithOne(o => o!.ParentOrder!);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o!.Subscription!);
 
             modelBuilder.Entity<Subscription>()
-                .HasOne(s => s.OrderItem!)
-                .WithOne(oi => oi.Subscription!)
-                .HasForeignKey<Subscription>(s => s.OrderItemId);
+                .HasOne(s => s.Order!);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne(s => s.OrderItem!);
+
+            modelBuilder.Entity<Subscription>()
+                  .HasMany(o => o.Orders!)
+                  .WithOne(o => o!.Subscription!);
         }
     }
 }

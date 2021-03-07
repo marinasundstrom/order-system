@@ -3,35 +3,36 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Commerce.Application.Common.Interfaces;
-using Commerce.Application.Orders;
 using Commerce.Application.Subscriptions;
+using Commerce.Domain.Entities;
+using Commerce.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Commerce.Application.Deliveries.Commands
+namespace Commerce.Application.Orders.Commands
 {
-    public class GenerateDeliveriesCommand : IRequest
+    public class GenerateSubscriptionOrdersCommand : IRequest
     {
-        public GenerateDeliveriesCommand(int? orderId)
+        public GenerateSubscriptionOrdersCommand(int? orderId)
         {
             OrderId = orderId;
         }
 
         public int? OrderId { get; }
 
-        public class GenerateDeliveriesCommandHandler : IRequestHandler<GenerateDeliveriesCommand>
+        public class GenerateSubscriptionOrdersCommandHandler : IRequestHandler<GenerateSubscriptionOrdersCommand>
         {
             private readonly IApplicationDbContext applicationDbContext;
 
-            public GenerateDeliveriesCommandHandler(IApplicationDbContext applicationDbContext)
+            public GenerateSubscriptionOrdersCommandHandler(IApplicationDbContext applicationDbContext)
             {
                 this.applicationDbContext = applicationDbContext;
             }
 
-            public async Task<Unit> Handle(GenerateDeliveriesCommand request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(GenerateSubscriptionOrdersCommand request, CancellationToken cancellationToken)
             {
-                OrderDeliveryGenerator orderDeliveryGenerator = new OrderDeliveryGenerator(
-                             new DeliveryFactory(),
+                SubscriptionOrderGenerator subscriptionOrderGenerator = new SubscriptionOrderGenerator(
+                             new OrderFactory(),
                              new SubscriptionOrderDateGenerator());
 
                 var orders = applicationDbContext.Orders.AsQueryable()
@@ -56,16 +57,20 @@ namespace Commerce.Application.Deliveries.Commands
 
                 foreach (var order in orders)
                 {
-                    var deliveries = orderDeliveryGenerator.GetDeliveries(order, null, null);
+                    var orders2 = subscriptionOrderGenerator.GetOrders(order, null, null).ToArray();
 
-                    foreach (var delivery in deliveries.OrderBy(x => x.PlannedStartDate))
+                    foreach (var order2 in orders2.OrderBy(x => x.PlannedStartDate))
                     {
-                        applicationDbContext.Deliveries.Add(delivery);
+                        applicationDbContext.Orders.Add(order2);
 
-                        delivery.Status = Domain.Enums.DeliveryStatus.Delivered;
+                        order2.OrderDate = DateTime.Now;
 
-                        delivery.ActualStartDate = delivery.PlannedStartDate;
-                        delivery.ActualEndDate = delivery.PlannedEndDate;
+                        order2.StatusId = OrderStatuses.Approved.Id;
+                        order2.StatusDate = DateTime.Now;
+
+                        // INFO: Just for debug
+                        order2.ActualStartDate = order2.PlannedStartDate;
+                        order2.ActualEndDate = order2.PlannedEndDate;
                     }
                 }
 

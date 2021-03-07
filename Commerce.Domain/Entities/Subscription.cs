@@ -13,9 +13,9 @@ namespace Commerce.Domain.Entities
 
         public Organization? Organization { get; set; }
 
-        public Order? Order { get; set; }
+        public Order Order { get; set; } = null!;
 
-        public int? OrderId { get; set; }
+        public int OrderId { get; set; }
 
         public OrderItem? OrderItem { get; set; }
 
@@ -35,7 +35,7 @@ namespace Commerce.Domain.Entities
         
         public string? Note { get; set; }
 
-        public List<Delivery> Deliveries { get; } = new List<Delivery>();
+        public ICollection<Order> Orders { get; } = new List<Order>();
 
         public DateTime CreatedDate { get; set; }
 

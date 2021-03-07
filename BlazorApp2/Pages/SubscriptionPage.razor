@@ -65,32 +65,31 @@ else
             </tr>
         </thead>
         <tbody>
-            @if (subscription.Deliveries.Any())
+            @if (subscription.Orders.Any())
             {
-                @foreach (DeliveryItem deliveryItem in subscription.Deliveries.ElementAt(0)!.Items)
+                @foreach (OrderItem orderItem in subscription.Orders.ElementAt(0)!.Items)
                 {
                     <tr>
-                        <td><a href="/orders/@deliveryItem.Order.Id">@deliveryItem.Order.Id</a></td>
-                        <td>@deliveryItem?.OrderItem?.Id</td>
-                        <td><a href="/products/@deliveryItem?.Product?.Id">@deliveryItem?.Product?.Name</a></td>
+                        <td><a href="/orders/@orderItem.Order.Id">@orderItem.Order.Id</a></td>
+                        <td>@orderItem?.Id</td>
+                        <td><a href="/products/@orderItem?.Product?.Id">@orderItem?.Product?.Name</a></td>
 
-                        <td>@deliveryItem!.UnitPrice</td>
-                        <td>@deliveryItem.Quantity @deliveryItem.Unit</td>
-                        <td>@deliveryItem.SubTotal</td>
+                        <td>@orderItem!.UnitPrice</td>
+                        <td>@orderItem.Quantity @orderItem.Unit</td>
+                        <td>@orderItem.SubTotal</td>
                     </tr>
                 }
             }
         </tbody>
     </table>
 
-    <h2>Deliveries</h2>
+    <h2>Orders</h2>
 
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Status</th>
-                <th>Order</th>
                 <th>Planned Start</th>
                 <th>Planned End</th>
                 <th>Actual Start</th>
@@ -99,17 +98,16 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var delivery in subscription.Deliveries)
+            @foreach (Order order in subscription.Orders)
             {
             <tr>
-                <td><a href="/deliveries/@delivery.Id">@delivery.Id</a></td>
-                <td>@delivery.Status</td>
-                <td><a href="/orders/@delivery.Order?.Id">@delivery.Order?.Id</a></td>
-                <td>@delivery.PlannedStartDate</td>
-                <td>@delivery.PlannedEndDate</td>
-                <td>@delivery.ActualStartDate</td>
-                <td>@delivery.ActualEndDate</td>
-                <td><a href="/invoices/@delivery.InvoiceItem?.Invoice?.Id">@delivery.InvoiceItem?.Invoice?.Id</a></td>
+                <td><a href="/orders/@order.Id">@order.Id</a></td>
+                <td>@order.Status</td>
+                <td>@order?.PlannedStartDate.ToString("g")</td>
+                <td>@order?.PlannedEndDate?.ToString("g")</td>
+                <td>@order?.ActualStartDate?.ToString("g")</td>
+                <td>@order?.ActualEndDate?.ToString("g")</td>
+                <td><a href="/invoices/@order?.InvoiceItem?.Invoice?.Id">@order?.InvoiceItem?.Invoice?.Id</a></td>
             </tr>
             }
         </tbody>

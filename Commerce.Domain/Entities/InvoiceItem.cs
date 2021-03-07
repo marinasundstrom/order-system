@@ -11,7 +11,11 @@ namespace Commerce.Domain.Entities
 
         public Order Order { get; set; } = null!;
 
+        public int OrderId { get; set; }
+
         public OrderItem? OrderItem { get; set; }
+
+        public int? OrderItemId { get; set; }
 
         public Delivery? Delivery { get; set; }
 
