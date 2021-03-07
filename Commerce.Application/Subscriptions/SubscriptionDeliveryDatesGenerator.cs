@@ -15,30 +15,31 @@ namespace Commerce.Application.Subscriptions
         /// </remarks>
         public IEnumerable<(DateTime Start, DateTime? End)> GetDeliveryDatesFromSubscription(Subscription subscription, DateTime? startDate = null, DateTime? endDate = null)
         {
+            DateTime? after = subscription.StartDate;
+
+            (DateTime Start, DateTime? End)? current = null;
+
+            do
+            {
+                current = GetDeliveryDate(subscription, after.GetValueOrDefault());
+                after = current?.Start;
+
+                yield return current.GetValueOrDefault();
+            }
+            while (current != null);
+        }
+
+        /// <remarks>
+        /// Make sure to pass date without time.
+        /// </remarks>
+        public (DateTime Start, DateTime? End)? GetDeliveryDate(Subscription subscription, DateTime? after)
+        {
             IRecurring? recurring = null;
 
             var subscriptionPlan = subscription.SubscriptionPlan;
 
             //var startDate = subscription.StartDate.Date;
             //var endDate = subscription.EndDate?.Date;
-
-            if (endDate != null)
-            {
-                subscription.EndDate = endDate;
-            }
-            else
-            {
-                if (subscription.EndDate == null)
-                {
-                    //  Set End of Year and default EndDate
-                    subscription.EndDate = new DateTime(DateTime.Now.Year, 12, 31);
-                }
-            }
-
-            if (startDate != null)
-            {
-                subscription.StartDate = startDate.GetValueOrDefault();
-            }
 
             if (subscription.StartDate >= subscription.EndDate)
             {
@@ -146,30 +147,30 @@ namespace Commerce.Application.Subscriptions
                 recurring = yearsBuilder.Build();
             }
 
-            DateTime? after = subscription.StartDate; //.Date //.AddDays(-1); (Necessary)
+            if (recurring == null)
+                throw new Exception();
 
-            while (after != null && recurring != null)
+            after = recurring.Next(after.GetValueOrDefault());
+
+            if (after != null)
             {
-                after = recurring.Next(after.GetValueOrDefault());
+                var startDateTime = after.GetValueOrDefault().Add(subscription.SubscriptionPlan.StartTime);
 
-                if (after != null)
+                DateTime? endDateTime = null;
+
+                if (subscription.SubscriptionPlan.Duration != null)
                 {
-                    var startDateTime = after.GetValueOrDefault().Add(subscription.SubscriptionPlan.StartTime);
+                    // Duration might be Null (Unknown)
 
-                    DateTime? endDateTime = null;
-
-                    if (subscription.SubscriptionPlan.Duration != null)
-                    {
-                        // Duration might be Null (Unknown)
-
-                        endDateTime = startDateTime.Add(subscription.SubscriptionPlan.Duration.GetValueOrDefault());
-                    }
-
-                    yield return (
-                        startDateTime,
-                        endDateTime);
+                    endDateTime = startDateTime.Add(subscription.SubscriptionPlan.Duration.GetValueOrDefault());
                 }
+
+                return (
+                    startDateTime,
+                    endDateTime);
             }
+
+            return null;
         }
 
         private static Day MapWeekDaysToDays(WeekDays weekDays)
